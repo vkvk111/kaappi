@@ -3,16 +3,22 @@ from time import sleep
 #import board
 import math
 
+#
+#
+#
+# 19 = ala vasen
+
 pins = [5, 6, 13, 19]
 
 GPIO.setmode(GPIO.BCM)
 
-for i in pins:
-    GPIO.setup(i, GPIO.OUT)
-    GPIO.output(i, GPIO.HIGH)
+def launch(n):
 
-input()
-for i in pins:
-    GPIO.output(i, GPIO.LOW)
+    GPIO.setup(pins[n], GPIO.OUT)
+    GPIO.output(pins[n], GPIO.HIGH)
 
-GPIO.cleanup()
+    sleep(0.5)
+
+    GPIO.output(pins[n], GPIO.LOW)
+
+

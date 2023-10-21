@@ -8,7 +8,7 @@ pixels = neopixel.NeoPixel(board.D18, 300)
 
 def main():
 
-    pixels.fill((0,0,0))
+
     f = open("position.txt", "r")
     pos_old = 0
 
