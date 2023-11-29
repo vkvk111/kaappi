@@ -1,3 +1,4 @@
+
 import RPi.GPIO as GPIO
 from time import sleep
 import math
@@ -9,6 +10,7 @@ from solenoid import launch
 # top led back 68
 # bottom led back 134
 
+TOP_POS = 2450
 
 class Stepper:
 

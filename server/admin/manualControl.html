@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <style>
+        body{
+            background: darkslategray;
+            padding: 0;
+            margin: 0;
+        }
+
+
+        #control{
+            position: absolute;
+            background-color: #007BFF;
+            display: block;
+            padding: 0;
+            margin: 0;
+            width: 100vw;
+            height: 100vh;
+            align-content: center;
+            align-items: center;
+
+        }
+
+        #updown{
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+
+            text-align: center;
+            align-content: center;
+            align-items: center;
+
+            background-color: darkslategray;
+            align-self: center;
+            transform: translate(-50%,0%);
+            left: 50%;
+            width: 30%;
+            height: 100%;
+
+
+
+        }
+
+        #updown form{
+            height: 100%;
+            width: 100%;
+        }
+
+        #updown button{
+            display: block;
+            cursor: pointer;
+            border: none;
+            height: 45%;
+            width: 100%;
+            background-color: coral;
+            padding: 0;
+        }
+
+        #updown input{
+            display: flex;
+            transform: translate(50%,0%);
+            height: 10%;
+            border: 0;
+            padding: 0;
+            width: 50%;
+
+        }
+
+        br {
+            display: block; /* makes it have a width */
+            content: ""; /* clears default height */
+            margin-top: 0; /* change this to whatever height you want it */
+        }
+
+        #otherFuncs{
+            background-color: red;
+            display: flex;
+            position: absolute;
+            width: 33.33%;
+            height: 100%;
+        }
+
+        #otherFuncs button{
+            width: auto;
+            height: 10%;
+            border-radius: 50%;
+        }
+
+        #console{
+            width: 33%;
+            display: flex;
+            position: absolute;
+            height: 100%;
+            background-color: white;
+            left: 50%;
+            transform: translate(50%,0%);
+            border-radius: 5%;
+            outline: 2px solid black;
+        }
+
+        #consoleForm{
+            bottom: 0;
+            position: absolute;
+            display: flex;
+            width: 90%;
+            left: 50%;
+            transform: translate(-50%,0%);
+        }
+
+    </style>
+</head>
+<body>
+    <div id="control">
+        <div id="otherFuncs">
+            <button onclick=zero()>Zero position</button>
+        </div>
+        <div id="updown">
+            <form>
+                <button type="button" onclick=moveUp(this.form.steps.value)>up</button><br>
+                <input name="steps" type="number" max="2000" min="1"><br>
+                <button type="button" onclick=moveDown(this.form.steps.value)>down</button>
+            </form>
+        </div>
+        <div id="console">
+            <div id="consoleOutput">
+
+            </div>
+            <form onsubmit=sendCommand(this.form) id="consoleForm" autocomplete="off">
+                <input type="text" name="command">
+                <button type="button" onclick=sendCommand(this.form)>Send</button>
+            </form>
+        </div>
+    </div>
+</body>
+<script type="text/javascript" src="./manualControl.js"></script>
+</html>
