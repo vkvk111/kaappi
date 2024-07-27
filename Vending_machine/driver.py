@@ -91,7 +91,7 @@ class Stepper:
         self.turn(1, 5, 500)
 
         while (GPIO.input(self.ZEROBTN) == 0):
-            self.turn(0, 1, 300)
+            self.turn(0, 1, 500)
 
         self.position = 0
 

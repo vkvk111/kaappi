@@ -34,7 +34,7 @@ if argument1 == "1":
         spd = sys.argv[4]  # speed
         stepper.turn(0, int(argument3), int(spd))
 
-    stepper.disabelMotor()
+    stepper.disableMotor()
 elif argument1 == "2":
     if argument2 == "3": #Bottom left
         solenoid.launch(3)
