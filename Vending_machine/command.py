@@ -2,7 +2,7 @@ import sys
 import platform
 
 if platform.system() == "Windows":
-    print("")
+    print("Windows")
 else:
     rpi = True
     import driver

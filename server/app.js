@@ -18,7 +18,7 @@ app.use(express.static(__dirname)); //security issue
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
-const server = app.listen(27015, () =>{
+const server = app.listen(80, () =>{
     console.log("Started on port 80")
 })
 
@@ -36,7 +36,7 @@ app.get("/admin/manualControl", (req,res) => {
 })
 
 app.post("/moveUp", (req, res) => {
-
+    console.log("moveUp");
     let steps = req.body.steps;
     let speed = 500;
     const dirname = __dirname.split("server")[0];
@@ -56,7 +56,7 @@ app.post("/moveUp", (req, res) => {
 })
 
 app.post("/moveDown", (req, res) => {
-
+    console.log("moveDown");
     let steps = req.body.steps;
     let speed = 500;
     const dirname = __dirname.split("server")[0];
@@ -74,3 +74,21 @@ app.post("/moveDown", (req, res) => {
     res.send("OK");
     res.end();
 })
+
+app.post("/zero", (req, res) => {
+    console.log("zero");
+        const dirname = __dirname.split("server")[0];
+        exec('python ' + path.join(dirname,'/Vending_machine/command.py') + ' 1 0' , (err, stdout, stderr) => {
+            if (err) {
+                // node couldn't execute the command
+                console.log(err);
+                return;
+            }
+
+            // the *entire* stdout and stderr (buffered)
+            console.log(`stdout: ${stdout}`);
+            console.log(`stderr: ${stderr}`);
+        });
+        res.send("OK");
+        res.end();
+    })
