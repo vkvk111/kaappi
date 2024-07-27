@@ -21,4 +21,9 @@ def launch(n):
 
     GPIO.output(pins[n], GPIO.LOW)
 
-
+if __name__ == "__main__":
+    print("LAUNCHING SOLENOID")
+#    launch(0)
+#    launch(1)
+#    launch(2)
+    launch(3)

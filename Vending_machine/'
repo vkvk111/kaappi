@@ -1,10 +1,7 @@
-#!/bin/python
-
 import RPi.GPIO as GPIO
 from time import sleep
 import math
 from solenoid import launch
-import sys
 
 # 2450 steps 
 # top led front 67
@@ -78,7 +75,7 @@ class Stepper:
  
         print(f"potition: {self.position}")
 
-    def launchcan(self, solenoid=0, delay=5):
+    def launchcan(self, solenoid=0, delay=0.1):
         self.disableMotor()
         launch(solenoid)
         sleep(delay)
@@ -92,65 +89,33 @@ class Stepper:
         self.turn(1, 5, 500)
 
         while (GPIO.input(self.ZEROBTN) == 0):
-            self.turn(0, 1, 500)
+            self.turn(0, 1, 300)
 
         self.position = 0
 
 
 def main():
+    GPIO.setmode(GPIO.BCM)
+
     stepper = Stepper(
         dir=23,
         step=24,
         enable=27,
         zero=26,
     )
-    arg1 = sys.argv[1]
-    # arg2 = sys.argv[2]
-
-    if arg1 == "left0":
-        getBotLeft(stepper)
-    elif arg1 == "en":
-        stepper.enableMotor()
-    elif arg1 == "dis":
-        stepper.disableMotor()
-    elif arg1 == "cal":
-        stepper.enableMotor()
-        stepper.calibrate()
-        stepper.disableMotor()
-    elif arg1 == "up":
-        stepper.enableMotor()
-        speed = sys.argv[2]
-        steps = sys.argv[3]
-        stepper.turn(1, int(steps), int(speed))
-        stepper.disableMotor()
-    elif arg1 == "down":
-        stepper.enableMotor()
-        speed = sys.argv[2]
-        steps = sys.argv[3]
-        stepper.turn(0, int(steps), int(speed))
-        stepper.disableMotor()
-    elif arg1 == "can":
-        stepper.enableMotor()
-        stepper.launchcan(3, 0.1)
-        stepper.disableMotor()
-
-
-def getBotLeft(stepper):
-    GPIO.setmode(GPIO.BCM)
 
     stepper.enableMotor()
+#    stepper.turn(1, 400, 300)
     stepper.calibrate()
-    stepper.turn(1, 80, 300)
     sleep(1)
-    stepper.launchcan(3, 0.1)
-    stepper.turn(0, 80, 300)
-    sleep(2)
-    stepper.turn(1, 750, 300)
+    stepper.launchcan()
+    stepper.turn(1, 2450, 300)
+
+    sleep(5)
+#    stepper.launchcan(3, 0.1)
 
     stepper.disableMotor()
 
 
-
-
-
+   
 main()
