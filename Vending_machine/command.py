@@ -1,5 +1,6 @@
 import sys
 import platform
+import time
 
 #if platform.system() == "Windows":
 #    print("Windows")
@@ -36,6 +37,14 @@ if argument1 == "1":
 
     stepper.disableMotor()
 elif argument1 == "2":
-    if argument2 == "3": #Bottom left
-        solenoid.launch(3)
+    n = int(argument2)
+    solenoid.launch(n)
+elif argument1 == "3":
+    #test protocol
+    stepper.enableMotor()
 
+    stepper.calibrate()
+    time.sleep(1)
+    stepper.turn(1, 100, 500)
+
+    stepper.disableMotor()
