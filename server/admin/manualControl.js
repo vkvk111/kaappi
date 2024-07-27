@@ -91,6 +91,24 @@ function zero(){
     })
 }
 
+function solenoid(n){
+    let data = {solenoid: n};
+    fetch("/solenoid", {
+        method: "POST",
+        mode: "cors",
+        cache: "no-cache",
+        credentials: "same-origin",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        redirect: "follow",
+        referrerPolicy: "no-referrer",
+        body: JSON.stringify(data),
+    }).then(function (e) {
+        console.log("SENT DATA");
+    })
+}
+
 function sendCommand(commandForm){
     commandIndex = -1;
     switch (commandForm.command.value.trim()){
