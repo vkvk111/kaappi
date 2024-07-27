@@ -109,6 +109,22 @@ function solenoid(n){
     })
 }
 
+function testProtocol(){
+    fetch("/testProtocol", {
+        method: "POST",
+        mode: "cors",
+        cache: "no-cache",
+        credentials: "same-origin",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        redirect: "follow",
+        referrerPolicy: "no-referrer",
+    }).then(function (e) {
+        console.log("SENT DATA");
+    })
+}
+
 function sendCommand(commandForm){
     commandIndex = -1;
     switch (commandForm.command.value.trim()){

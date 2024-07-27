@@ -111,3 +111,21 @@ app.post("/solenoid", (req, res) => {
     res.send("OK");
     res.end();
 })
+
+app.post("/testProtocol", (req, res) => {
+    console.log("testProtocol");
+    const dirname = __dirname.split("server")[0];
+    exec('python ' + path.join(dirname,'/Vending_machine/command.py') + ' 3 0' , (err, stdout, stderr) => {
+        if (err) {
+            // node couldn't execute the command
+            console.log(err);
+            return;
+        }
+
+        // the *entire* stdout and stderr (buffered)
+        console.log(`stdout: ${stdout}`);
+        console.log(`stderr: ${stderr}`);
+    });
+    res.send("OK");
+    res.end();
+})
