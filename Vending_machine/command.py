@@ -35,16 +35,20 @@ if argument1 == "1":
         spd = sys.argv[4]  # speed
         stepper.turn(0, int(argument3), int(spd))
 
-    stepper.disableMotor()
+    #stepper.disableMotor()
 elif argument1 == "2":
     n = int(argument2)
-    solenoid.launch(n)
+    solenoid.launch(n) #3 = bottom left
 elif argument1 == "3":
     #test protocol
     stepper.enableMotor()
 
     stepper.calibrate()
-    time.sleep(1)
-    stepper.turn(1, 100, 500)
 
-    stepper.disableMotor()
+    stepper.turn(1, 100, 400)
+    solenoid.launch(3)
+
+    time.sleep(1.5)
+    stepper.calibrate()
+    stepper.turn(1, 2430, 400)
+    #stepper.disableMotor()

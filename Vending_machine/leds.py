@@ -17,42 +17,20 @@ def main():
 
 
         f = open("position.txt", "r")
-        pos = int(f.read())
+        try:
+            pos = int(int(f.read()) * 67/2480)
+                
+            pos_old = pos
 
-        if  pos == pos_old:
-            same_count += 1
-            print(same_count)
-            if same_count >= 10:
-                same_count = 0
+            led_amount = 6
 
-                for i in range(300):
-                    pixels[299-i] = (0,0,0)
-            
-        pos_old = pos
+            pixels[0:300] = [(0,0,0) for i in range (300)]
+            pixels[pos: pos+led_amount] = [(255,0,0) for i in range(led_amount)]
 
-        led_amount=16
-
-        for i in range(led_amount):
-            pixels[pos + i] = (255, 0, 0)
-
-        pixels[pos + led_amount] = (0, 0, 0)
-        pixels[pos + led_amount + 1] = (0, 0, 0)
-        if pos > 2:
-            pixels[pos - 2] = (0, 0, 0)
-            pixels[pos - 3] = (0, 0, 0)
-        
-
+        except:
+            pos = 0
 
         f.close()
 
-
-
-
-
-
-
-try:   
-    main()
-except:
-    pixels.fill((0,0,0))
+main()
     

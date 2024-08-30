@@ -36,9 +36,11 @@ class Stepper:
         GPIO.setup(self.ZEROBTN, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
         GPIO.output(self.ENABLE, GPIO.HIGH)
+        f = open("position.txt", "r")
+        self.position = int(f.read())
 
     def calculateLedPos(self):
-        self.ledPosition = (67/2480)* self.position
+        self.ledPosition = (67/2480) * self.position
         self.ledPosition = math.floor(self.ledPosition)
         return self.ledPosition
 
@@ -50,11 +52,14 @@ class Stepper:
         GPIO.output(self.ENABLE, GPIO.HIGH)
         self.enabled = 0
 
-    def turn(self, dir, steps, speed):
+    def turn(self, dir, steps, speed, accel=True):
 
         # set direction 0 / 1
         GPIO.output(self.DIR, dir)
-
+        if accel:
+            spd = 10
+        else:
+            spd = speed
         if dir== 0:
             diff = -1
         else:
@@ -62,18 +67,17 @@ class Stepper:
 
         for i in range(steps):
             GPIO.output(self.STEP,GPIO.HIGH)
-            sleep(1/(speed*2))
+            sleep(1/(spd*2))
             GPIO.output(self.STEP,GPIO.LOW)
-            sleep(1/(speed*2))
-
+            sleep(1/(spd*2))
+            spd += 10
+            if spd > speed:
+                spd = speed
             self.position += diff
 
-            ledPosOld = self.ledPosition
-            if self.calculateLedPos() != ledPosOld:
-                f = open("position.txt", "w")
-                f.write(str(self.ledPosition))
-                print(self.ledPosition)
-                f.close()
+            f = open("position.txt", "w")
+            f.write(str(self.position))
+            f.close()
 
         print(f"potition: {self.position}")
 
@@ -91,9 +95,13 @@ class Stepper:
         self.turn(1, 5, 500)
 
         while (GPIO.input(self.ZEROBTN) == 0):
-            self.turn(0, 1, 500)
+            self.turn(0, 1, 500, accel=False)
 
         self.position = 0
+
+        f = open("position.txt", "w")
+        f.write(str(self.position))
+        f.close()
 
 
 def main():

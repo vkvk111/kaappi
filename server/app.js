@@ -38,7 +38,7 @@ app.get("/admin/manualControl", (req,res) => {
 app.post("/moveUp", (req, res) => {
     console.log("moveUp");
     let steps = req.body.steps;
-    let speed = 500;
+    let speed = 400;
     const dirname = __dirname.split("server")[0];
     exec('python ' + path.join(dirname,'/Vending_machine/command.py') + ' 1 1 ' + steps + ' ' + speed , (err, stdout, stderr) => {
         if (err) {
@@ -58,7 +58,7 @@ app.post("/moveUp", (req, res) => {
 app.post("/moveDown", (req, res) => {
     console.log("moveDown");
     let steps = req.body.steps;
-    let speed = 500;
+    let speed = 400;
     const dirname = __dirname.split("server")[0];
     exec('python ' + path.join(dirname,'/Vending_machine/command.py') + ' 1 2 ' + steps + ' ' + speed , (err, stdout, stderr) => {
         if (err) {
