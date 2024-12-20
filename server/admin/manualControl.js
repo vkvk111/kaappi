@@ -109,6 +109,38 @@ function solenoid(n){
     })
 }
 
+function enableMotor(){
+    fetch("/enableMotor", {
+        method: "POST",
+        mode: "cors",
+        cache: "no-cache",
+        credentials: "same-origin",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        redirect: "follow",
+        referrerPolicy: "no-referrer",
+    }).then(function (e) {
+        console.log("SENT DATA");
+    })
+}
+
+function disableMotor(){
+    fetch("/disableMotor", {
+        method: "POST",
+        mode: "cors",
+        cache: "no-cache",
+        credentials: "same-origin",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        redirect: "follow",
+        referrerPolicy: "no-referrer",
+    }).then(function (e) {
+        console.log("SENT DATA");
+    })
+}
+
 function testProtocol(){
     fetch("/testProtocol", {
         method: "POST",

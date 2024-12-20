@@ -112,6 +112,42 @@ app.post("/solenoid", (req, res) => {
     res.end();
 })
 
+app.post("/disableMotor", (req, res) => {
+    console.log("disableMotor");
+    const dirname = __dirname.split("server")[0];
+    exec('python ' + path.join(dirname,'/Vending_machine/command.py') + ' 1 3' , (err, stdout, stderr) => {
+        if (err) {
+            // node couldn't execute the command
+            console.log(err);
+            return;
+        }
+
+        // the *entire* stdout and stderr (buffered)
+        console.log(`stdout: ${stdout}`);
+        console.log(`stderr: ${stderr}`);
+    });
+    res.send("OK");
+    res.end();
+})
+
+app.post("/enableMotor", (req, res) => {
+    console.log("enableMotor");
+    const dirname = __dirname.split("server")[0];
+    exec('python ' + path.join(dirname,'/Vending_machine/command.py') + ' 1 4' , (err, stdout, stderr) => {
+        if (err) {
+            // node couldn't execute the command
+            console.log(err);
+            return;
+        }
+
+        // the *entire* stdout and stderr (buffered)
+        console.log(`stdout: ${stdout}`);
+        console.log(`stderr: ${stderr}`);
+    });
+    res.send("OK");
+    res.end();
+})
+
 app.post("/testProtocol", (req, res) => {
     console.log("testProtocol");
     const dirname = __dirname.split("server")[0];
