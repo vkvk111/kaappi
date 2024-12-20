@@ -4,7 +4,8 @@ from time import sleep
 import math
 from solenoid import launch
 
-# 2450 steps 
+# OUTDATED INFO
+# 2430 steps 
 # top led front 67
 # bottom led front 0
 # top led back 68
@@ -103,6 +104,11 @@ class Stepper:
         f.write(str(self.position))
         f.close()
 
+    def test_button(self):
+        while True:
+            print(GPIO.input(self.ZEROBTN))
+
+
 
 def main():
     GPIO.setmode(GPIO.BCM)
@@ -114,6 +120,8 @@ def main():
         zero=26,
     )
 
+    """
+
     stepper.enableMotor()
 #    stepper.turn(1, 400, 300)
     stepper.calibrate()
@@ -124,6 +132,12 @@ def main():
 #    stepper.launchcan(3, 0.1)
 
     stepper.disableMotor()
+    """
+
+    stepper.test_button()
 
 
-#main()
+
+if __name__ == "__main__":
+    main()
+

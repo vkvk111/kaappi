@@ -35,6 +35,12 @@ if argument1 == "1":
         spd = sys.argv[4]  # speed
         stepper.turn(0, int(argument3), int(spd))
 
+    elif argument2 == "3":  #Disable motor
+        stepper.disableMotor()
+        print("motor disabled")
+
+    elif argument2 == "4":  #Enable motor
+        print("motor enabled")
     #stepper.disableMotor()
 elif argument1 == "2":
     n = int(argument2)
@@ -50,5 +56,5 @@ elif argument1 == "3":
 
     time.sleep(1.5)
     stepper.calibrate()
-    stepper.turn(1, 2430, 400)
+    stepper.turn(1, 1430, 400)
     #stepper.disableMotor()

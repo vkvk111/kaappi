@@ -21,4 +21,5 @@ def launch(n):
 
     GPIO.output(pins[n], GPIO.LOW)
 
-
+if __name__ == "__main__":
+    launch(3)

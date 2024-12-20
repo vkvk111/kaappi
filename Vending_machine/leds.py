@@ -8,24 +8,27 @@ pixels = neopixel.NeoPixel(board.D18, 300)
 
 def main():
 
+    led_amount = 6
 
     f = open("position.txt", "r")
-    pos_old = 0
 
+    pos_old = 0
     same_count = 0
     while True:
 
 
         f = open("position.txt", "r")
         try:
-            pos = int(int(f.read()) * 67/2480)
+            pos = int(int(f.read()) * 67/2430)
+            pos2 = 144 - pos
                 
+
+            if pos != pos_old:
+                pixels[0:300] = [(0,0,0) for i in range (300)]
+                pixels[pos: pos+led_amount] = [(255,0,0) for i in range(led_amount)]
+                pixels[pos2-led_amount: pos2] = [(255,0,0) for i in range(led_amount)]
+
             pos_old = pos
-
-            led_amount = 6
-
-            pixels[0:300] = [(0,0,0) for i in range (300)]
-            pixels[pos: pos+led_amount] = [(255,0,0) for i in range(led_amount)]
 
         except:
             pos = 0
@@ -33,4 +36,4 @@ def main():
         f.close()
 
 main()
-    
+#pixels.fill((255,0,0))
