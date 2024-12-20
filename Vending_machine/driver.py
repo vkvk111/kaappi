@@ -91,7 +91,7 @@ class Stepper:
     def calibrate(self):
         max = 2400
         while (GPIO.input(self.ZEROBTN) == 1):
-            self.turn(1, 1, 500)
+            self.turn(1, 1, 500, False)
             max -= 1
             if max <= 0:
                 break

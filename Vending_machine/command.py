@@ -51,10 +51,12 @@ elif argument1 == "3":
 
     stepper.calibrate()
 
-    stepper.turn(1, 100, 400)
+    stepper.turn(1, 50, 400)
     solenoid.launch(3)
 
-    time.sleep(1.5)
+    time.sleep(3.0)
     stepper.calibrate()
-    stepper.turn(1, 1430, 400)
-    #stepper.disableMotor()
+    stepper.turn(1, 2420, 400)
+    time.sleep(5.0)
+    stepper.disableMotor()
+

@@ -19,7 +19,7 @@ def main():
 
         f = open("position.txt", "r")
         try:
-            pos = int(int(f.read()) * 67/2430)
+            pos = int(int(f.read()) * 58/2430) + 9
             pos2 = 144 - pos
                 
 
