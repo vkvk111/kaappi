@@ -9,3 +9,4 @@
 
 - led efektejä
 
+- koneoppimisalgoritmi
