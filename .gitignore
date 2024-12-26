@@ -3,3 +3,4 @@ Vending_machine/.idea/*
 Vending_machine/__pycache__/
 Vending_machine/position.txt/
 position.txt
+node_modules

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QR Code</title>
+    <style>
+        body { /* Set the body to full screen */
+            text-align: center;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: row;
+            
+        }
+
+        #qrcode { /* set the QR code to the middle of the screen */
+            height: 100vh;
+            position: absolute;
+            width: 33vw;
+            left: 50%;
+            top: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transform: translate(-50%, -50%);
+            flex-direction: column;
+
+        }
+
+        #status-left { /* set the status to the left keeping the qrcode in the middle */
+            position: relative;
+            height: 100vh;
+            width: 33vw;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-size: 150%;
+        }
+
+        #status-right { /* set the status to the right keeping the qrcode in the middle */
+            position: absolute;
+            height: 100vh;
+            width: 33vw;
+            right: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-size: 150%;
+        }
+
+        #Motor {
+            flex-direction: row;
+            display: flex;
+        }
+
+        #orders {
+            flex-direction: row;
+            display: flex;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="status-left">
+        <div id="Motor">
+            <p>Motor enabled: <p id="motorEnabled"></p> </p>
+        </div>
+
+    </div>
+    <div id="qrcode">
+        <img src="./qrcode.png" style="height: 75%;" alt="QR Code">
+        <h1 id="random" style="font-size: 400%;">94</h1>
+    </div>
+    <div id="status-right">
+        <div id="orders"> 
+            <p>Total orders: <p id="totalOrders"></p></p>
+        </div>
+    </div>
+
+</body>
+<script src="/socket.io/socket.io.js"></script>
+<script src="./qrcode.js"></script>
+
+</html>

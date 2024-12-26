@@ -5,7 +5,9 @@ const bodyParser = require("body-parser");
 const fs = require("fs");
 const cookieParser = require('cookie-parser');
 const { exec } = require('child_process');
-
+const QRCode = require('qrcode');
+const socketio = require('socket.io');
+const { create } = require('domain');
 
 
 const app = express();
@@ -18,10 +20,35 @@ app.use(express.static(__dirname)); //security issue
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
+
+//security variables
+//changes after order is placed
+let randomNumber = Math.max(parseInt(Math.random()*100)-1, 0);
+
+const ip = "192.168.1.113" //change to your ip address
+//global state variables
+let motorEnabled = false;
+let state = 0;
+let queue = [];
+let totalOrders = 0;
+
+
+//status object
+let status = {randomnumber: randomNumber, state: state, motorEnabled: motorEnabled, queue: queue, totalOrders: totalOrders}; //other data here to be displayed on the main page //qrcode
+
+
+
+
 const server = app.listen(80, () =>{
-    console.log("Started on port 80")
+    console.log("Started on port 80\nhttp://" + ip + "/scanned");
 })
 
+const io = socketio(server);
+
+io.on('connection', (socket) => {
+    console.log('New connection');
+    socket.emit("status", status);
+})
 
 app.get("/", (req,res) => {
     res.sendFile(path.join(__dirname,"/public/home.html"));
@@ -165,3 +192,53 @@ app.post("/testProtocol", (req, res) => {
     res.send("OK");
     res.end();
 })
+
+app.get("/qrcode", (req,res) => {
+    //generate qrcode with random number and save it to public folder
+    let url = "http://" + ip + "/scanned";
+
+    QRCode.toFile(path.join(__dirname,"public/qrcode.png"), url, {
+        color: {
+            dark: '#123',  // Blue dots
+            light: '#0000' // Transparent background
+        }
+    }, function (err) {
+        if (err) throw err
+    })
+    res.sendFile(path.join(__dirname,"/public/qrcode.html"));
+})
+
+app.post("/secretCode", (req,res) => {
+    res.json(randomNumber);
+})
+
+
+app.get("/scanned", (req,res) => {
+    res.sendFile(path.join(__dirname,"/public/order.html"));
+    console.log("scanned");
+    createOrder();
+})
+
+
+function createOrder(){
+    //create order
+    let order = {
+        orderNumber: randomNumber,
+        state: 0,
+        date: new Date()
+    }
+    //add order to queue
+    queue.push(order);
+    //update status
+    status.queue = queue;
+    //update random number
+    randomNumber = Math.max(parseInt(Math.random()*100)-1, 0);
+    //update status
+    status.randomnumber = randomNumber;
+    //increase total orders
+    totalOrders++;
+    //update status
+    status.totalOrders = totalOrders;
+    //emit status to all clients
+    io.sockets.emit("status", status);
+}
