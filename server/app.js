@@ -290,20 +290,22 @@ function serveOrder(order){
         if(stdout.includes("done")){
             order.state = 1;
             state = 0; //back to idle
+        }else{
+            console.log("not done");
         }
         console.log(`stderr: ${stderr}`);
     });
-    state = 0;
+    //state = 0;
     //update status
-    status.state = state;
+    //status.state = state;
     //emit status to all clients
-    io.sockets.emit("status", status);
+   // io.sockets.emit("status", status);
     
 }
 
 
 function tick(){
-    //console.log("tick, state: " + state);
+    console.log("tick, state: " + state);
     //check if state is idle(0)
     //check if there are any orders
     if(state == 0){
@@ -321,9 +323,14 @@ function tick(){
             //move the machine
             serveOrder(order);
             state = 1;
-        }
+            ticking = setTimeout(tick, 30000);
+         }else{
+            ticking = setTimeout(tick, 1000);
+         }
+    }else{
+         ticking = setTimeout(tick, 1000);
     }
+    
 }
 
-
-let ticking = setInterval(tick, 1000);
+let ticking = setTimeout(tick, 1000);
