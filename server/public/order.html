@@ -1,1 +1,49 @@
-asdasdasdasd
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        #Order {
+            position: absolute;
+            width: 70%;
+            height: 70%;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 250%;
+            background-color: green;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            display: block;
+        }
+
+        #afterOrder {
+            position: absolute;
+            width: 70%;
+            height: 70%;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 250%;
+            font-family: Arial, sans-serif;
+            color: black;
+            text-align: center;
+            display: none;
+        }
+
+        b{
+            font-size: 300%;
+        }
+        
+    </style>
+</head>
+<body>
+    <button onclick=order() id="Order">Order</button>
+    <div id="afterOrder">
+        <b><i>Order placed!</i></b>
+        <p>Order number:</p>
+        <p id="orderNumber">90</p>
+    </div>
+</body>
+<script src="./order.js"></script>
+</html>

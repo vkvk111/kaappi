@@ -28,7 +28,7 @@ let randomNumber = Math.max(parseInt(Math.random()*100)-1, 0);
 const ip = "192.168.1.113" //change to your ip address
 //global state variables
 let motorEnabled = false;
-let state = 0;
+let state = 0; //0 idle, 1 serving
 let queue = [];
 let totalOrders = 0;
 
@@ -216,12 +216,27 @@ app.post("/secretCode", (req,res) => {
 app.get("/scanned", (req,res) => {
     res.sendFile(path.join(__dirname,"/public/order.html"));
     console.log("scanned");
-    createOrder();
+
 })
 
 
-function createOrder(){
+app.post("/order", (req,res) => {
+    //check if the number is correct, or if its done locally
+    let number = req.body.number;
+
+    if (createOrder(number)){
+        res.send({totalOrders: totalOrders, success: true});
+    }else{
+        res.send({success: false});
+    }
+    res.end();
+})
+
+function createOrder(number){
     //create order
+    if (number != randomNumber){
+        return false;
+    }
     let order = {
         orderNumber: randomNumber,
         state: 0,
@@ -241,4 +256,75 @@ function createOrder(){
     status.totalOrders = totalOrders;
     //emit status to all clients
     io.sockets.emit("status", status);
+
+    const dirname = __dirname.split("server")[0];
+    exec('python ' + path.join(dirname,'/Vending_machine/command.py') + ' 3 0' , (err, stdout, stderr) => {
+        if (err) {
+            // node couldn't execute the command
+            console.log(err);
+            return;
+        }
+
+        // the *entire* stdout and stderr (buffered)
+        console.log(`stdout: ${stdout}`);
+        console.log(`stderr: ${stderr}`);
+    });
+
+    return true;
 }
+
+
+
+function serveOrder(order){
+    console.log("serving!");
+    const dirname = __dirname.split("server")[0];
+    exec('python ' + path.join(dirname,'/Vending_machine/command.py') + ' 3 0' , (err, stdout, stderr) => {
+        if (err) {
+            // node couldn't execute the command
+            console.log(err);
+            return;
+        }
+
+        // the *entire* stdout and stderr (buffered)
+        console.log(`stdout: ${stdout}`);
+        console.log(`stderr: ${stderr}`);
+    });
+    state = 0;
+    //update status
+    status.state = state;
+    //emit status to all clients
+    io.sockets.emit("status", status);
+
+
+
+    //finished serving
+    console.log("done serving");
+    
+}
+
+
+function tick(){
+    console.log("tick");
+    //check if state is idle(0)
+    //check if there are any orders
+    if(state == 0){
+        if(queue.length > 0){
+            //get the first order
+            let order = queue[0];
+            //remove the order from the queue
+            queue.shift();
+            //update status
+            status.queue = queue;
+            //update status
+            status.totalOrders = totalOrders;
+            //emit status to all clients
+            io.sockets.emit("status", status);
+            //move the machine
+            serveOrder(order);
+            state = 1;
+        }
+    }
+}
+
+
+let ticking = setInterval(tick, 1000);
