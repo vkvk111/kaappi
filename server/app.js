@@ -287,6 +287,10 @@ function serveOrder(order){
 
         // the *entire* stdout and stderr (buffered)
         console.log(`stdout: ${stdout}`);
+        if(stdout.includes("done")){
+            order.state = 1;
+            state = 0; //back to idle
+        }
         console.log(`stderr: ${stderr}`);
     });
     state = 0;
@@ -294,17 +298,12 @@ function serveOrder(order){
     status.state = state;
     //emit status to all clients
     io.sockets.emit("status", status);
-
-
-
-    //finished serving
-    console.log("done serving");
     
 }
 
 
 function tick(){
-    console.log("tick");
+    console.log("tick, state: " + state);
     //check if state is idle(0)
     //check if there are any orders
     if(state == 0){

@@ -59,4 +59,5 @@ elif argument1 == "3":
     stepper.turn(1, 2420, 400)
     time.sleep(5.0)
     stepper.disableMotor()
+    print("test protocol done")
 
