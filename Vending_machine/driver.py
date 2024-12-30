@@ -80,7 +80,7 @@ class Stepper:
             f.write(str(self.position))
             f.close()
 
-        print(f"potition: {self.position}")
+        #print(f"potition: {self.position}")
 
     def launchcan(self, solenoid=0, delay=0.1):
         self.disableMotor()

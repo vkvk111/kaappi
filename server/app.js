@@ -25,7 +25,7 @@ app.use(bodyParser.json());
 //changes after order is placed
 let randomNumber = Math.max(parseInt(Math.random()*100)-1, 0);
 
-const ip = "192.168.1.113" //change to your ip address
+const ip = "192.168.1.122" //change to your ip address
 //global state variables
 let motorEnabled = false;
 let state = 0; //0 idle, 1 serving
@@ -303,7 +303,7 @@ function serveOrder(order){
 
 
 function tick(){
-    console.log("tick, state: " + state);
+    //console.log("tick, state: " + state);
     //check if state is idle(0)
     //check if there are any orders
     if(state == 0){
@@ -317,7 +317,7 @@ function tick(){
             //update status
             status.totalOrders = totalOrders;
             //emit status to all clients
-            io.sockets.emit("status", status);
+            //io.sockets.emit("status", status);
             //move the machine
             serveOrder(order);
             state = 1;
